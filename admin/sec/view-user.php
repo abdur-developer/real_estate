@@ -53,6 +53,10 @@
                     <td><h3 class="t-op-nextlvl"><?=$row['balance_refer']?> tk</h3></td>
                 </tr>
                 <tr>
+                    <td><h3 class="t-op-nextlvl">Withdraw : </h3></td>
+                    <td><h3 class="t-op-nextlvl"><?=$row['balance_withdraw']?> tk</h3></td>
+                </tr>
+                <tr>
                     <td><h3 class="t-op-nextlvl">Join by : </h3></td>
                     <td>
                         <?php
@@ -68,35 +72,59 @@
                     </td>
                 </tr>
                 <tr>
+                    <style>
+                        input{
+                            font-size: 15px;
+                            padding: 3px 10px;
+                            margin: 0 10px;
+                            width: 300px%;
+                            font-weight: 500;
+                        }
+                        .btn{
+                            display: inline-block;
+                            text-align: center;
+                            text-decoration: none;
+                            padding: 5px 15px;
+                            border: none;
+                            border: 2px solid #0729a9;
+                            cursor: pointer;
+                            font-size: 14px;
+                            border-radius: 10px;
+                            background-color: #fff;
+                            color: #0729a9;
+                            margin: 5px auto;
+                        }
+                        .btn:hover{
+                            color: white;
+                            background-color: #0729a9;
+                        }
+                    </style>
                     <td>
-                        <h3 class='t-op-nextlvl'>
-                            <a href='?user-login=<?= $row['number'] ?>' target="_blank">Login</a>
-                        </h3>
+                        <form method="post">
+                            <input type="number" name="add_invest" required placeholder="Invest amount">
+                            <input type="hidden" name="id" value="<?=$id?>">
+                            <input type="hidden" name="balance" value="<?=$row['balance']?>">
+                            <input type="hidden" name="invest" value="<?=$row['balance_invest']?>">
+                            <input type="hidden" name="ot_ref" value="<?=$row['ot_ref']?>">
+                            <button type="submit" class='btn add_btn'>Add Invest</a>
+                        </form>
                     </td>
                     <td>
-                        <style>
-                            input{
-                                font-size: 15px;
-                                padding: 3px 10px;
-                                margin: 0 10px;
-                                width: 300px%;
-                                font-weight: 500;
-                            }
-                            .add_btn{
-                                font-size: 15px;
-                                padding: 3px 10px;
-                                margin: 0 10px;
-                                width: 300px%;
-                                font-weight: 500;
-                                background: aqua;
-                                border-radius: 10%;
-                            }
-                        </style>
                         <form method="post">
-                            <input type="number" name="add_invest" placeholder="Invest amount">
+                            <input type="number" name="add_withdraw" required placeholder="Withdraw amount">
                             <input type="hidden" name="id" value="<?=$id?>">
-                            <button type="submit" class='add_btn'>Add Invest</a>
+                            <input type="hidden" name="balance" value="<?=$row['balance']?>">
+                            <input type="hidden" name="withdraw" value="<?=$row['balance_withdraw']?>">
+                            <button type="submit" class='btn add_btn'>Withdraw</a>
                         </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href='?user-login=<?= $row['number'] ?>' target="_blank" class="btn-true">Login as user</a>
+                    </td>
+                    <td>
+                        <a href='?user-login=<?= $row['number'] ?>' target="_blank" class="btn-false">Ban user</a>
                     </td>
                 </tr>
             </tbody>

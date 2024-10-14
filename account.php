@@ -38,84 +38,9 @@
             }
         ?>
         <div class="wrapper">
-            <?php
-                if(isset($_REQUEST['register'])){
-            ?>
-            <!-- below register page page ========================================================================================================-->
-            <form action="auth/register.php" id="registerForm" method="post">
-                <h2>রেজিস্টার</h2>
-                <div class="input-field">
-                    <input type="text" name="name" required>
-                    <label>নাম প্রবেশ করুন</label>
-                </div>
-                <div class="input-field">
-                    <input type="number" name="number" required>
-                    <label>নম্বর প্রবেশ করুন</label>
-                </div>
-                <div class="input-field">
-                    <input type="email" name="email" required>
-                    <label>ইমেইল প্রবেশ করুন</label>
-                </div>
-                <?php
-                    if(isset($_REQUEST['ref'])){
-                        $ref = $_REQUEST['ref'];
-                        echo "<input type='hidden' name='ref' value='$ref'>";
-                    }else{
-                ?>
-                <div class="input-field">
-                    <input type="text" name="ref" required>
-                    <label>রেফারেন্স কোড প্রবেশ করুন</label>
-                </div>
-                <?php } ?>
-                <div class="input-field">
-                    <input type="password" name="password" id="password" minlength="6" required>
-                    <label>পাসওয়ার্ড প্রবেশ করুন</label>
-                </div>
-                <div class="input-field">
-                    <input type="password" id="confirmPassword" required>
-                    <label>আবার পাসওয়ার্ড প্রবেশ করুন</label>
-                </div>
-                <div id="message" class="message"></div>
-                <button type="submit" class="btn-login">রেজিস্টার</button>
-                <div class="register">
-                    <p>আপনি ইতিমধ্যে একটি অ্যাকাউন্ট আছে? <a href="?">লগইন</a></p>
-                </div>
-            </form>
-            <script>
-                const passwordInput = document.getElementById('password');
-                const confirmPasswordInput = document.getElementById('confirmPassword');
-                const messageDiv = document.getElementById('message');
-
-                confirmPasswordInput.addEventListener('input', () => {
-                    if (confirmPasswordInput.value === passwordInput.value) {
-                        confirmPasswordInput.classList.add('match');
-                        confirmPasswordInput.classList.remove('no-match');
-                        messageDiv.textContent = 'Passwords match!';
-                        messageDiv.classList.add('visible');
-                    } else {
-                        confirmPasswordInput.classList.add('no-match');
-                        confirmPasswordInput.classList.remove('match');
-                        messageDiv.textContent = 'Passwords do not match!';
-                        messageDiv.classList.add('visible');
-                    }
-                });
-
-                passwordInput.addEventListener('input', () => {
-                    // Clear the message when user types in the password field
-                    messageDiv.classList.remove('visible');
-                    confirmPasswordInput.classList.remove('match', 'no-match');
-                });
-
-                document.getElementById('registerForm').addEventListener('submit', (e) => {
-                    if (passwordInput.value !== confirmPasswordInput.value) {
-                        e.preventDefault();
-                        alert('পাসওয়ার্ড মিলছে না! জমা দেওয়ার আগে দয়া করে ত্রুটিগুলি ঠিক করুন৷');
-                    }
-                });
-            </script>
-            <?php
-                }elseif(isset($_REQUEST['change']) && isset($_COOKIE['dbv23563'])){ //dbv23563 = coockie variable
-            ?>
+           <?php 
+                if(isset($_REQUEST['change']) && isset($_COOKIE['dbv23563'])){ //dbv23563 = coockie variable
+           ?>
             <!-- below register page page =================================================================================================-->=======-->
             <form action="auth/change.php" id="registerForm" method="get">
                 <h2>পাসওয়ার্ড পরিবর্তন করুন</h2>
@@ -274,9 +199,6 @@
                     <a href="?forget">পাসওয়ার্ড ভুলে গেছেন...?</a>
                 </div>
                 <button type="submit" class="btn-login">লগইন করুন</button>
-                <div class="register">
-                    <p>আপনার কোন অ্যাকাউন্ট নেই? <a href="?register">রেজিস্টার</a></p>
-                </div>
             </form>
             <?php } ?>
         </div>

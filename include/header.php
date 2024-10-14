@@ -47,10 +47,10 @@ function isActive($tab){
         <?php
         if (isset($_COOKIE["user_is_login"])) {
           echo "<li><a href='?q=dashboard'". isActive("dashboard").">ড্যাশবোর্ড</a></li>";
+          echo "<li><a href='logout.php'>লগ আউট</a></li>";
         }else{
         ?>
         <li><a href="account.php">লগইন</a></li>
-        <li><a href="account.php?register">রেজিস্টার</a></li>
         <?php } ?>
       </ul>
       <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>

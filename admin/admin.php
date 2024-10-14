@@ -265,9 +265,69 @@ function uploadImage($terget_dir, $img_file){
     if(isset($_REQUEST['add_invest'])){
         $id = $_REQUEST['id'];
         $amount = $_REQUEST['add_invest'];
-        die($amount."-----page 268");
+        $balance = $_REQUEST['balance'];
+        $invest = $_REQUEST['invest'];
+        $ot_ref = $_REQUEST['ot_ref'];
+
+        
+        $balance += $amount;
+        $invest += $amount;
+        
+        // die("$amount--$balance--$invest");
+
+        $sql = "UPDATE users SET balance = '$balance', balance_invest = '$invest' WHERE id = $id";
+        mysqli_query($conn, $sql);//update balance
+
+        $sql = "INSERT INTO transection (user_id, message, amount, is_add) VALUES ('$id', 'Invest balance', '$amount', '1')";
+        mysqli_query($conn, $sql);//add trx history
+
+
+        
+        if($ot_ref != '0'){//give refer bonus
+            $sql = "SELECT id, name, balance FROM users WHERE my_ref = '$ot_ref'";
+            $referer = mysqli_fetch_assoc(mysqli_query($conn, $sql));
+
+            $referer_id = $referer['id'];
+            $referer_name = $referer['name'];
+            $referer_balance = $referer['balance'];
+
+            $bonus = ($amount * 8) / 100; //    8% percentage bonus
+            $referer_balance += $bonus;
+
+            $sql = "UPDATE users SET balance = '$referer_balance', balance_withdraw = '$withdraw' WHERE id = $id";
+            mysqli_query($conn, $sql);//update balance
+
+            $sql = "INSERT INTO transection (user_id, message, amount, is_add) VALUES ('$referer_id', 'refer bonus from $referer_name', '$bonus', '1')";
+            mysqli_query($conn, $sql);//add trx history
+        }
+
+        header("location: ?q=view-user&id=$id&success=Invest+successfull");
+
     }
     // ============================================================ Invest action
+    // ============================================================ withdraw action
+    if(isset($_REQUEST['add_withdraw'])){
+        $id = $_REQUEST['id'];
+        $amount = $_REQUEST['add_withdraw'];
+        $balance = $_REQUEST['balance'];
+        $withdraw = $_REQUEST['withdraw'];
+
+        if($balance >= $amount){
+            $balance -= $amount;
+            $withdraw += $amount;
+            $sql = "UPDATE users SET balance = '$balance', balance_withdraw = '$withdraw' WHERE id = $id";
+            mysqli_query($conn, $sql);//update balance
+
+            $sql = "INSERT INTO transection (user_id, message, amount, is_add) VALUES ('$id', 'Withdraw balance', '$amount', '0')";
+            mysqli_query($conn, $sql);//add trx history
+            header("location: ?q=view-user&id=$id&success=Withdraw+successfull");
+
+        }else{
+            header("location: ?q=view-user&id=$id&error=Don't+have+enough+money+in+this+account");
+        }
+
+    }
+    // ============================================================ withdraw action
     // ============================================================ login action
     if(isset($_REQUEST['user-login'])){
         $number = $_REQUEST['user-login'];

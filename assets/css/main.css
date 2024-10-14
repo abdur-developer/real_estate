@@ -855,6 +855,7 @@ section,
 --------------------------------------------------------------*/
 .agents .member {
   position: relative;
+  margin-bottom: -30px;
 }
 
 .agents .member .pic {

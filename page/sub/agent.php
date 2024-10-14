@@ -6,7 +6,7 @@
             $team_query = mysqli_query($conn, $sql);
             while($team = mysqli_fetch_array($team_query)){
           ?>
-          <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="100">
+          <div class="col-lg-3 col-md-4 col-6" data-aos="fade-up" data-aos-delay="100">
             <div class="member">
               <div class="pic"><img src="assets/img/team/<?=$team['img']?>" class="img-fluid" alt=""></div>
             </div>
