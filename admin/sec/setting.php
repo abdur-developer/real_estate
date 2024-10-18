@@ -36,18 +36,7 @@
                 border-radius: 4px;
                 margin-left: 10px;
             }
-            .form-group input[type="submit"] {
-                width: 100%;
-                padding: 10px;
-                background-color: #007bff;
-                color: #fff;
-                border: none;
-                border-radius: 4px;
-                cursor: pointer;
-            }
-            .form-group input[type="submit"]:hover {
-                background-color: #0056b3;
-            }
+            
         </style>
         <div class="main_xx">
             <div class="container">

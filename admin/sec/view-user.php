@@ -12,7 +12,68 @@
    
     <div class="report-body">
         <table class="package">
+            <?php if($row['nid_verify'] == '0'){ ?>
+                <style>
+                    .nid_upload {
+                        background: white;
+                        padding: 20px;
+                        border-radius: 8px;
+                        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                    }
+
+                    .nid_upload h2 {
+                        text-align: center;
+                    }
+
+                    .nid_upload label {
+                        display: block;
+                        margin: 15px 0 5px;
+                    }
+
+                    .nid_upload input[type="file"] {
+                        width: 100%;
+                        padding: 8px;
+                        border: 1px solid #ccc;
+                        border-radius: 4px;
+                    }
+
+                    .nid_upload button {
+                        width: 50%;
+                        padding: 10px;
+                        background-color: #28a745;
+                        color: white;
+                        border: none;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        display: block;
+                        margin: 10px auto;
+                    }
+
+                    .nid_upload button:hover {
+                        background-color: #218838;
+                    }
+                </style>
+                <!-- ============================================================= -->
+                <div class="nid_upload">
+                    <h2>NID আপলোড করুন</h2>
+                    <form action="" method="POST" enctype="multipart/form-data">
+                        <label for="front_image">ফ্রন্ট ইমেজ:</label>
+                        <input type="file" name="front" id="front_image" required>
+
+                        <input type="hidden" name="upload_nid" value="<?=$row['id']?>">
+
+                        <label for="back_image">ব্যাক ইমেজ:</label>
+                        <input type="file" name="back" id="back_image" required>
+
+                        <button type="submit">আপলোড করুন</button>
+                    </form>
+                </div>
+            <?php } ?>
             <tbody class="items">
+                <tr>
+                    <td><h3 class="t-op-nextlvl">Username : </h3></td>
+                    <td><h3 class="t-op-nextlvl"><?=$row['username']?></h3></td>                   
+                </tr>
                 <tr>
                     <td><h3 class="t-op-nextlvl">Name : </h3></td>
                     <td><h3 class="t-op-nextlvl"><?=$row['name']?></h3></td>                   
@@ -29,8 +90,7 @@
                     <td><h3 class="t-op-nextlvl">NID : </h3></td>
                     <td><h3 class="t-op-nextlvl">
                         <?php
-                            if($row['nid_verify'] == '2') echo 'Verified<img src="img/tick.png" alt="verify" width="15">';
-                            elseif($row['nid_verify'] == '1') echo "<a href='?q=view-request&id=$id' class='btn-warning'>Pending</a>";
+                            if($row['nid_verify'] == '1') echo 'Verified<img src="img/tick.png" alt="verify" width="15">';
                             else echo 'Not Verify';
                         ?>
                         
@@ -60,10 +120,10 @@
                     <td><h3 class="t-op-nextlvl">Join by : </h3></td>
                     <td>
                         <?php
-                        if($row['ot_ref'] == '0'){
+                        if($row['join_by'] == '0'){
                             echo "<h5>Website</h5>";
                         }else{
-                            $sql = "SELECT id, name FROM users WHERE my_ref = '".$row['ot_ref']."'";
+                            $sql = "SELECT id, name FROM users WHERE id = '".$row['join_by']."'";
                             $r = mysqli_fetch_assoc(mysqli_query($conn, $sql));
                             echo "<a class='t-op-nextlvl' href='?q=view-user&id=".$r['id']."'>".$r['name']."</a>";
                         }
@@ -103,9 +163,7 @@
                         <form method="post">
                             <input type="number" name="add_invest" required placeholder="Invest amount">
                             <input type="hidden" name="id" value="<?=$id?>">
-                            <input type="hidden" name="balance" value="<?=$row['balance']?>">
                             <input type="hidden" name="invest" value="<?=$row['balance_invest']?>">
-                            <input type="hidden" name="ot_ref" value="<?=$row['ot_ref']?>">
                             <button type="submit" class='btn add_btn'>Add Invest</a>
                         </form>
                     </td>
@@ -121,10 +179,10 @@
                 </tr>
                 <tr>
                     <td>
-                        <a href='?user-login=<?= $row['number'] ?>' target="_blank" class="btn-true">Login as user</a>
+                        <a href='?user-login=<?= $row['username'] ?>' target="_blank" class="btn-true">Login as user</a>
                     </td>
                     <td>
-                        <a href='?user-login=<?= $row['number'] ?>' target="_blank" class="btn-false">Ban user</a>
+                        <a href='?user-login=<?= $row['username'] ?>' target="_blank" class="btn-false">Ban user</a>
                     </td>
                 </tr>
             </tbody>

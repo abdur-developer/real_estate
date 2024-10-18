@@ -1,15 +1,15 @@
 <?php
-//?number=3543&password=dg
-if(isset($_REQUEST['number'])){
-    $number = $_REQUEST['number'];
+//?username=3543&password=dg
+if(isset($_REQUEST['username'])){
+    $username = $_REQUEST['username'];
     $pass_input = $_REQUEST['password'];
     
     require "../include/dbcon.php";
-    $sql = "SELECT COUNT(*) as count FROM users WHERE number = '$number'";
-    $number_row = mysqli_fetch_assoc(mysqli_query($conn, $sql));
-    $count = $number_row['count'];
+    $sql = "SELECT COUNT(*) as count FROM users WHERE username = '$username'";
+    $username_row = mysqli_fetch_assoc(mysqli_query($conn, $sql));
+    $count = $username_row['count'];
     if ($count > 0) {
-        $sql = "SELECT * FROM users WHERE number = '$number'";
+        $sql = "SELECT * FROM users WHERE username = '$username'";
         $password_row = mysqli_fetch_assoc(mysqli_query($conn, $sql));
         $id = $password_row['id'];
         $has_pass = $password_row['password'];
@@ -24,7 +24,7 @@ if(isset($_REQUEST['number'])){
             $samesite = 'Strict'; // Can be 'Strict' or 'Lax'
 
             // Set the cookie
-            setcookie("user_is_login", encryptSt($number), [
+            setcookie("user_is_login", encryptSt($username), [
                 'expires' => $expire_time,
                 'path' => $path,
                 'domain' => $domain,
@@ -39,7 +39,7 @@ if(isset($_REQUEST['number'])){
             header("location: ../account.php?error=password+wrong..try+again/forget+password ..!");
         }
     }else{
-        header("location: ../account.php?error=number+not+found+on+our+database..!");
+        header("location: ../account.php?error=username+not+found+on+our+database..!");
     }
 }
 ?>

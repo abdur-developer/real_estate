@@ -3,7 +3,7 @@
         if (!isset($_COOKIE["user_is_login"])) header("location: ?error+=please+login!");
         $user_cookie = $_COOKIE['user_is_login'];
         
-        $sql = "SELECT * FROM users WHERE number = '".decryptSt($user_cookie)."'";
+        $sql = "SELECT * FROM users WHERE username = '".decryptSt($user_cookie)."'";
         $query = mysqli_query($conn, $sql);
 
         $user = mysqli_fetch_assoc($query);
@@ -63,11 +63,11 @@
     if($user['ban'] == '1'){ 
         include('page/dashboard/ban.php');
 
-    }elseif($user['nid_verify'] == '2'){
+    }elseif($user['nid_verify'] == '1'){
         include('page/dashboard/nid-verify.php');
 
-    }elseif($user['nid_verify'] == '1'){
-        include('page/dashboard/nid-pending.php');
+    // }elseif($user['nid_verify'] == ''){
+    //     include('page/dashboard/nid-pending.php');
         
     }else{
         include('page/dashboard/nid-upload.php');        

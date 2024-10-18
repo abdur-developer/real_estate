@@ -1,7 +1,7 @@
 <div class="report-container">
     <div class="report-header">
         <h1 class="recent-Articles">All users</h1>
-        <!-- <a href="?q=adding" class="view">Add</a> -->
+        <a href="?q=add-user" class="view">Add</a>
     </div>
 
     <div class="report-body">
@@ -13,6 +13,7 @@
                     <thead class="">
                         <tr>
                             <th><h3 class="t-op">Name</h3></th>
+                            <th><h3 class="t-op">Username</h3></th>
                             <th><h3 class="t-op">Number</h3></th>
                             <th><h3 class="t-op">Invest</h3></th>
                             <th><h3 class="t-op">Balance</h3></th>
@@ -25,6 +26,7 @@
                             $ques_id = $row['id']; ?>
                         <tr>
                             <td><h3 class="t-op-nextlvl"><?= $row['name'] ?></h3></td>
+                            <td><h3 class="t-op-nextlvl"><?= $row['username'] ?></h3></td>
                             <td><h3 class="t-op-nextlvl"><?= $row['number'] ?></h3></td>
                             <td><h3 class="t-op-nextlvl"><?= $row['balance_invest'] ?></h3></td>
                             <td><h3 class="t-op-nextlvl"><?= $row['balance'] ?></h3></td>

@@ -3,48 +3,48 @@
     session_start();
     if(!isset($_SESSION["admin"])){
         header("location: login.php");
-        die("login failed");
+        exit();
     }
 
     // =====================================================Upload Image Function
-function uploadImage($terget_dir, $img_file){
-    $terget_file = $terget_dir . rand(10000,99999) .basename($img_file['name']);
-    $upload_ok = true;
-    $imgFileType = strtolower(pathinfo("../".$terget_file, PATHINFO_EXTENSION));
-    $check = getimagesize($img_file['tmp_name']);
-    $massage = "";
-    if($check !== false){
-        $massage = "File is an image - . ";
+    function uploadImage($terget_dir, $img_file){
+        $terget_file = $terget_dir . rand(10000,99999) .basename($img_file['name']);
         $upload_ok = true;
-    }else{
-        $massage = "File is not an image. ";
-        $upload_ok = false;
-    }
-    if(file_exists("../".$terget_file)){
-        unlink("../".$terget_file);
-    }
-    if($img_file['size'] > 5000000){
-        $massage = "File is too large. ";
-        $upload_ok = false;
-    }
-    if($imgFileType != 'jpg' && $imgFileType != 'png' && $imgFileType != 'jpeg' && $imgFileType != 'gif' && $imgFileType != 'svg'){
-        $massage = "Only JPG, JPEG, SVG PNG and GIF files are allowd.";
-        $upload_ok = false;
-    }
-    if($upload_ok){
-        if(move_uploaded_file($img_file['tmp_name'], "../".$terget_file)){
-            $massage = "The file ". htmlspecialchars(basename($img_file['name']))." has been uploaded.";
+        $imgFileType = strtolower(pathinfo("../".$terget_file, PATHINFO_EXTENSION));
+        $check = getimagesize($img_file['tmp_name']);
+        $massage = "";
+        if($check !== false){
+            $massage = "File is an image - . ";
+            $upload_ok = true;
         }else{
-            $massage = "there was an error uploading your image.";
+            $massage = "File is not an image. ";
             $upload_ok = false;
         }
+        if(file_exists("../".$terget_file)){
+            unlink("../".$terget_file);
+        }
+        if($img_file['size'] > 5000000){
+            $massage = "File is too large. ";
+            $upload_ok = false;
+        }
+        if($imgFileType != 'jpg' && $imgFileType != 'png' && $imgFileType != 'jpeg' && $imgFileType != 'gif' && $imgFileType != 'svg'){
+            $massage = "Only JPG, JPEG, SVG PNG and GIF files are allowd.";
+            $upload_ok = false;
+        }
+        if($upload_ok){
+            if(move_uploaded_file($img_file['tmp_name'], "../".$terget_file)){
+                $massage = "The file ". htmlspecialchars(basename($img_file['name']))." has been uploaded.";
+            }else{
+                $massage = "there was an error uploading your image.";
+                $upload_ok = false;
+            }
+        }
+        $temp = array();
+        $temp['terget_file'] = $terget_file;
+        $temp['upload_ok'] = $upload_ok;
+        $temp['massage'] = $massage;
+        return $temp;
     }
-    $temp = array();
-    $temp['terget_file'] = $terget_file;
-    $temp['upload_ok'] = $upload_ok;
-    $temp['massage'] = $massage;
-    return $temp;
-  }
   // =====================================================Upload Image Function
 
     // ============================================================admin details
@@ -60,6 +60,7 @@ function uploadImage($terget_dir, $img_file){
         }else{
             header("location: ?error=invalid password&q=setting");
         }
+        exit();
     }
     //password
     if(isset($_REQUEST['con_password'])){
@@ -84,6 +85,7 @@ function uploadImage($terget_dir, $img_file){
         }else{
             header("location: ?error=invalid password&q=setting");
         }
+        exit();
     }
     // ============================================================ admin details
     // ============================================================ slider details
@@ -142,6 +144,7 @@ function uploadImage($terget_dir, $img_file){
         }else{
             header("location: ?q=slider&error=$massage");
         }
+        exit();
     }
     // ============================================================ slider details
     // ============================================================ service action
@@ -154,6 +157,7 @@ function uploadImage($terget_dir, $img_file){
             $sql = "UPDATE services SET status = '0' WHERE id = '$id'";        
         }
         if(mysqli_query($conn, $sql)) header("location: ?index.php");
+        exit();
     }
     //==========
     if(isset($_REQUEST['service_edit'])){ 
@@ -168,6 +172,7 @@ function uploadImage($terget_dir, $img_file){
 
         $sql = "UPDATE services SET name = '$name', title = '$title', description = '$desc', contact_num = '$number', contact_email = '$email' WHERE id = '$id'";
         if(mysqli_query($conn, $sql)) header("location: ?q=view-service&service=$id&success=updated successfully");
+        exit();
     }
     // ============================================================ service action
     // ============================================================ service action
@@ -178,6 +183,7 @@ function uploadImage($terget_dir, $img_file){
 
         $sql = "DELETE FROM projects WHERE id = $id";
         if(mysqli_query($conn, $sql)) header("location: ?q=project");
+        exit();
     }
     if(isset($_REQUEST['project_update'])){
         $id = $_REQUEST['project_update'];
@@ -211,10 +217,12 @@ function uploadImage($terget_dir, $img_file){
             }else{
                 header("location: ?q=view-project&error=image+not+uploaded");
             }
+            exit();
 
         }else{
             $sql = "UPDATE projects SET title = '$title', description = '$desc', type = '$type', location = '$location', price = '$price', area = '$area', bed = '$bed', bath = '$bath', baranda = '$baranda', video = '$video', geo_location = '$geo' WHERE id = '$id'";
             if(mysqli_query($conn, $sql)) header("location: ?q=view-project&project=$id&success=update+Successfully+Complete");
+            exit();
         }
 
     }
@@ -223,6 +231,7 @@ function uploadImage($terget_dir, $img_file){
         GLOBAL $conn;
         if(mysqli_query($conn, $sql)) header("location: ?q=view-project&project=$id&success=successfully+update");
         else header("location: ?q=view-project&project=$id&error=something+wet+wrong");
+        exit();
     }
     //===================
     if(isset($_REQUEST['project_slide_1'])){
@@ -232,6 +241,7 @@ function uploadImage($terget_dir, $img_file){
             $sql = "UPDATE projects SET slider_1 = '".$temp['terget_file']."' WHERE id = $id";
             updateProjectImg($id, $sql);
         }else header("location: ?q=view-project&project=$id&error=something+wet+wrong");
+        exit();
     }
     //===================
     if(isset($_REQUEST['project_slide_2'])){
@@ -241,6 +251,7 @@ function uploadImage($terget_dir, $img_file){
             $sql = "UPDATE projects SET slider_2 = '".$temp['terget_file']."' WHERE id = $id";
             updateProjectImg($id, $sql);
         }else header("location: ?q=view-project&project=$id&error=something+wet+wrong");
+        exit();
     }
     //===================
     if(isset($_REQUEST['project_slide_3'])){
@@ -250,6 +261,7 @@ function uploadImage($terget_dir, $img_file){
             $sql = "UPDATE projects SET slider_3 = '".$temp['terget_file']."' WHERE id = $id";
             updateProjectImg($id, $sql);
         }else header("location: ?q=view-project&project=$id&error=something+wet+wrong");
+        exit();
     }
     //===================
     if(isset($_REQUEST['project_model'])){
@@ -259,49 +271,64 @@ function uploadImage($terget_dir, $img_file){
             $sql = "UPDATE projects SET model = '".$temp['terget_file']."' WHERE id = $id";
             updateProjectImg($id, $sql);
         }else header("location: ?q=view-project&project=$id&error=something+wet+wrong");
+        exit();
     }
     // ============================================================ project action
     // ============================================================ Invest action
     if(isset($_REQUEST['add_invest'])){
         $id = $_REQUEST['id'];
         $amount = $_REQUEST['add_invest'];
-        $balance = $_REQUEST['balance'];
-        $invest = $_REQUEST['invest'];
-        $ot_ref = $_REQUEST['ot_ref'];
 
+        $sql = "SELECT name, join_by, ref_side FROM users WHERE id = '$id'";
+        $user = mysqli_fetch_assoc(mysqli_query($conn, $sql));
+        $join_by = $user['join_by'];
+        $name = $user['name'];
         
-        $balance += $amount;
-        $invest += $amount;
-        
-        // die("$amount--$balance--$invest");
-
-        $sql = "UPDATE users SET balance = '$balance', balance_invest = '$invest' WHERE id = $id";
+        $sql = "UPDATE users SET balance = 'balance' + $amount, balance_invest = 'balance_invest' + $amount WHERE id = $id";
         mysqli_query($conn, $sql);//update balance
-
+        
         $sql = "INSERT INTO transection (user_id, message, amount, is_add) VALUES ('$id', 'Invest balance', '$amount', '1')";
         mysqli_query($conn, $sql);//add trx history
-
+        
 
         
-        if($ot_ref != '0'){//give refer bonus
-            $sql = "SELECT id, name, balance FROM users WHERE my_ref = '$ot_ref'";
-            $referer = mysqli_fetch_assoc(mysqli_query($conn, $sql));
+        //give refer bonus==============================================        
+        $bonus = floor(($amount * 8) / 100); // 8% percentage bonus
+        
+        $sql = "UPDATE users SET balance = '' + $bonus WHERE id = $join_by";
+        mysqli_query($conn, $sql); //update balance
+        
+        $sql = "INSERT INTO transection (user_id, message, amount, is_add) VALUES ('$join_by', 'refer bonus from $name', '$bonus', '1')";
+        mysqli_query($conn, $sql); //add trx history
+        //give refer bonus ==============================================
+        $side = $user['ref_side'];
 
-            $referer_id = $referer['id'];
-            $referer_name = $referer['name'];
-            $referer_balance = $referer['balance'];
+        //adding side point ================================================
+        addPoint($side, $join_by); //call
+        //function
+        function addPoint($side, $join_by){
+            GLOBAL $conn, $amount;
+            if($side == 'A')
+                $sql = "UPDATE users SET left_point = 'left_point' + $amount WHERE id = '$join_by'";
+            else 
+                $sql = "UPDATE users SET right_point = 'right_point' + $amount WHERE id = '$join_by'";
+            
+            mysqli_query($conn, $sql); //update point
 
-            $bonus = ($amount * 8) / 100; //    8% percentage bonus
-            $referer_balance += $bonus;
+            if($join_by != 0){
+                $sql = "SELECT side, join_by FROM users WHERE id = '$join_by'";
+                $ref_user = mysqli_fetch_assoc(mysqli_query($conn, $sql));
+                addPoint($ref_user['side'], $ref_user['join_by']); 
+            }
 
-            $sql = "UPDATE users SET balance = '$referer_balance', balance_withdraw = '$withdraw' WHERE id = $id";
-            mysqli_query($conn, $sql);//update balance
-
-            $sql = "INSERT INTO transection (user_id, message, amount, is_add) VALUES ('$referer_id', 'refer bonus from $referer_name', '$bonus', '1')";
-            mysqli_query($conn, $sql);//add trx history
         }
+        
+        
+        //adding side point ================================================
+        
 
         header("location: ?q=view-user&id=$id&success=Invest+successfull");
+        exit();
 
     }
     // ============================================================ Invest action
@@ -321,16 +348,18 @@ function uploadImage($terget_dir, $img_file){
             $sql = "INSERT INTO transection (user_id, message, amount, is_add) VALUES ('$id', 'Withdraw balance', '$amount', '0')";
             mysqli_query($conn, $sql);//add trx history
             header("location: ?q=view-user&id=$id&success=Withdraw+successfull");
+            exit();
 
         }else{
             header("location: ?q=view-user&id=$id&error=Don't+have+enough+money+in+this+account");
+            exit();
         }
 
     }
     // ============================================================ withdraw action
     // ============================================================ login action
     if(isset($_REQUEST['user-login'])){
-        $number = $_REQUEST['user-login'];
+        $username = $_REQUEST['user-login'];
         //==============================================================
         $expire_time = time() + (1800); // half hour expiration
         $path = "/"; // Available throughout the domain
@@ -339,7 +368,7 @@ function uploadImage($terget_dir, $img_file){
         $samesite = 'Strict'; // Can be 'Strict' or 'Lax'
 
         // Set the cookie
-        setcookie("user_is_login", encryptSt($number), [
+        setcookie("user_is_login", encryptSt($username), [
             'expires' => $expire_time,
             'path' => $path,
             'domain' => $domain,
@@ -348,6 +377,7 @@ function uploadImage($terget_dir, $img_file){
             'samesite' => $samesite,
         ]); 
         header("location: ../?q=dashboard");
+        exit();
     }
     // ============================================================ login action
     if(isset($_REQUEST['footer_web_name'])){
@@ -362,6 +392,7 @@ function uploadImage($terget_dir, $img_file){
         $sql = "UPDATE contact SET name = '$name', email = '$email', number = '$number', open_day = '$open', open_time = '$open_time', close_day = '$close', address = '$address' WHERE id = 1";
 
         if(mysqli_query($conn, $sql)) header("location: ?q=footer&success=Successfully+updated");
+        exit();
     }
     // ============================================================ login action
     // ============================================================ request action
@@ -374,6 +405,7 @@ function uploadImage($terget_dir, $img_file){
             mysqli_query($conn, $sql);
             $sql = "UPDATE users SET nid_verify = '2' WHERE id = '$user_id'";
             if(mysqli_query($conn, $sql)) header("location: ?q=request&success=successfully+updated");
+            exit();
         }else{
             $sql = "SELECT * FROM nid WHERE id = '$id'";
             $r_row = mysqli_fetch_assoc(mysqli_query($conn, $sql));
@@ -385,8 +417,44 @@ function uploadImage($terget_dir, $img_file){
             mysqli_query($conn, $sql);
             $sql = "UPDATE users SET nid_verify = '0' WHERE id = '$user_id'";
             if(mysqli_query($conn, $sql)) header("location: ?q=request&success=successfully+reject");
+            exit();
         }
     }
     // ============================================================ request action
+    // ============================================================ users action
+    if(isset($_REQUEST['add_users'])){
+        $username = $_REQUEST['username'];
+        $name = $_REQUEST['name'];
+        $ref = $_REQUEST['ref'];
+        $side = $_REQUEST['side'];
+        $number = $_REQUEST['number'];
+        $pass = $_REQUEST['pass'];
+        $nid = $_REQUEST['nid'];
+        
+        $email = (isset($_REQUEST['email'])) ? $_REQUEST['email'] : "";
+
+        $pass = encryptSt($pass);
+        
+        $sql = "INSERT INTO users (username, name, number, email, ref_side, join_by, password, nid_number) VALUES ('$username', '$name', '$number', '$email', '$side', '$ref', '$pass', '$nid')";
+        
+        if(mysqli_query($conn, $sql)) header("location: ?q=users&success=Successfully+user+added");
+        exit();
+    }
+    // ============================================================ users action
+    // ============================================================ nid action
+    if(isset($_REQUEST['upload_nid'])){
+        $id = $_POST['upload_nid'];
+        $temp_front = uploadImage("assets/img/nid/front/", $_FILES['front']);
+        $temp_back = uploadImage("assets/img/nid/back/", $_FILES['back']);
+
+        if($temp_front['upload_ok'] && $temp_back['upload_ok']){
+            $sql = "INSERT INTO nid (front, back, user_id, status) VALUES ('".$temp_front['terget_file']."', '".$temp_back['terget_file']."', '$id', '1')";
+            mysqli_query($conn, $sql);
+            $sql = "UPDATE users SET nid_verify = '1' WHERE id = $id";
+            if(mysqli_query($conn, $sql)) header("location: ?q=users&success=successfully+upload+nid");
+        }
+        
+    }
+    // ============================================================ nid action
     
 ?>

@@ -57,7 +57,7 @@ h2 {
   top: 50%;
   left: 0;
   transform: translateY(-50%);
-  color: #ddddddd8;
+  color: #dddddd;
   font-size: 12px;
   pointer-events: none;
   transition: 0.15s ease;
@@ -110,15 +110,17 @@ form .verify {
     pointer-events: none;
     transition: all 0.2s ease;
     background: #fff;
-    color: #000;
+    color: #999;
     cursor: pointer !important;
 }
 form .verify.active {
     background: #4070f4;
+    color: #fff;
     pointer-events: auto;
 }
 form .verify:hover {
     background: #0e4bf1;
+    color: #fff;
 }
 .forget {
   display: flex;

@@ -184,18 +184,14 @@
             <form action="auth/login.php" method="post">
                 <h2>লগইন</h2>
                 <div class="input-field">
-                    <input type="number" name="number" required>
-                    <label>নম্বর প্রবেশ করুন</label>
+                    <input type="text" name="username" required>
+                    <label>ইউজারনেম প্রবেশ করুন</label>
                 </div>
                 <div class="input-field">
                     <input type="password" name="password" required>
                     <label>পাসওয়ার্ড প্রবেশ করুন</label>
                 </div>
                 <div class="forget">
-                    <!-- <label for="remember">
-                        <input type="checkbox" id="remember">
-                        <p>মনে রাখুন</p>
-                    </label> -->
                     <a href="?forget">পাসওয়ার্ড ভুলে গেছেন...?</a>
                 </div>
                 <button type="submit" class="btn-login">লগইন করুন</button>

@@ -86,12 +86,6 @@
                                 <h3> Users</h3>
                             </div>
                         </a>
-                        <a href="?q=request" class="nav_a">
-                            <div class="nav-option option5">
-                                <img src="img/category.png" class="nav-img" alt="blog">
-                                <h3> NID Request</h3>
-                            </div>
-                        </a>
                         <a href="?q=footer" class="nav_a">
                             <div class="nav-option option5">
                                 <img src="img/question.png" class="nav-img" alt="blog">
@@ -132,6 +126,9 @@
                         }elseif($q == "users"){                            
                             include "sec/users.php";
 
+                        }elseif($q == "add-user"){                            
+                            include "sec/add-user.php";
+
                         }elseif($q == "view-user"){                            
                             include "sec/view-user.php";
 
@@ -141,11 +138,8 @@
                         }elseif($q == "footer"){                            
                             include "sec/footer.php";
 
-                        }elseif($q == "view-request"){                            
-                            include "sec/view-request.php";
-
-                        }elseif($q == "request"){                            
-                            include "sec/request.php";
+                        }elseif($q == "view-nid"){                            
+                            include "sec/view-nid.php";
 
                         }else{
                             include "sec/service.php";

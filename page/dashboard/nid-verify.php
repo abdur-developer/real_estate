@@ -36,6 +36,22 @@
             background-color: #f9f7e7; /* হালকা হলুদ */
         }
 
+        .dashboard .box5 {
+            background-color: #f4e7f9; 
+        }
+
+        .dashboard .box6 {
+            background-color: #e7f9f5; 
+        }
+
+        .dashboard .box7 {
+            background-color: #e7e8f9; 
+        }
+
+        .dashboard .box8 {
+            background-color: #f9e7f3; 
+        }
+
         .dashboard h3 {
             margin: 10px 0 5px;
         }
@@ -54,21 +70,41 @@
     </style>
     <div class="dashboard">
         <div class="box box1">
-            <i class="fas fa-chart-line"></i>
-            <h3>রেফার</h3>
+            <i class="fas fa-network-wired"></i>
+            <h3>রেফার বিল</h3>
             <p>৳ <?=$user['balance_refer']?></p>
         </div>
         <div class="box box2">
-            <i class="fas fa-chart-pie"></i>
-            <h3>কমিশন</h3>
+            <i class="fas fa-money-bill"></i>
+            <h3>ম্যাচিং বিল</h3>
             <p>৳ <?=$user['balance_comm']?></p>
         </div>
         <div class="box box3">
             <i class="fas fa-wallet"></i>
-            <h3>ইনভেস্ট</h3>
+            <h3>মোট উইথড্র</h3>
             <p>৳ <?=$user['balance_invest']?></p>
         </div>
         <div class="box box4">
+            <i class="fas fa-dollar-sign"></i>
+            <h3>মোট ব্যালেন্স</h3>
+            <p>৳ <?=$user['balance']?></p>
+        </div>
+        <div class="box box5">
+            <i class="fas fa-chart-line"></i>
+            <h3>রেফার</h3>
+            <p>৳ <?=$user['balance_refer']?></p>
+        </div>
+        <div class="box box6">
+            <i class="fas fa-chart-pie"></i>
+            <h3>মোট বিনিয়োগ</h3>
+            <p>৳ <?=$user['balance_comm']?></p>
+        </div>
+        <div class="box box7">
+            <i class="fas fa-money-bill-transfer"></i>
+            <h3>ইনভেস্ট</h3>
+            <p>৳ <?=$user['balance_invest']?></p>
+        </div>
+        <div class="box box8">
             <i class="fas fa-dollar-sign"></i>
             <h3>ব্যালেন্স</h3>
             <p>৳ <?=$user['balance']?></p>
@@ -76,58 +112,63 @@
     </div>
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <!-- ==================================================================== -->
+    <?php
+        $sql = "SELECT COUNT(*) as count FROM users WHERE join_by = '".$user['id']."'";
+        $refer = mysqli_fetch_assoc(mysqli_query($conn, $sql));
+        if($refer['count'] > 0 ){
+    ?>
+        <table class="table">
+            <tr>
+                <th>টিম এ</th>
+                <th>টিম বি</th>
+            </tr>
+            <?php
 
-    <table class="table">
-        <tr>
-            <th>টিম এ</th>
-            <th>টিম বি</th>
-        </tr>
-        <?php
+                $sql_a = "SELECT name FROM users WHERE ref_side = 'A' AND join_by = '".$user['id']."' ";
+                $query_a = mysqli_query($conn, $sql_a);
 
-            $sql_a = "SELECT name FROM users WHERE ref_side = '1' AND ot_ref = '".$user['my_ref']."' AND ref_side != '0'";
-            $query_a = mysqli_query($conn, $sql_a);
+                $sql_b = "SELECT name FROM users WHERE ref_side = 'B' AND join_by = '".$user['id']."' ";
+                $query_b = mysqli_query($conn, $sql_b);
 
-            $sql_b = "SELECT name FROM users WHERE ref_side = '2' AND ot_ref = '".$user['my_ref']."' AND ref_side != '0'";
-            $query_b = mysqli_query($conn, $sql_b);
+                // Initialize arrays to store results
+                $names_a = [];
+                $names_b = [];
 
-            // Initialize arrays to store results
-            $names_a = [];
-            $names_b = [];
-
-            // Fetch data from query A
-            while($row_a = mysqli_fetch_assoc($query_a)) {
-                $names_a[] = $row_a['name'];
-            }
-
-            // Fetch data from query B
-            while($row_b = mysqli_fetch_assoc($query_b)) {
-                $names_b[] = $row_b['name'];
-            }
-
-            // Get the maximum length of both arrays to loop through them
-            $max_length = max(count($names_a), count($names_b));
-
-            // Loop through both arrays and output results
-            for ($i = 0; $i < $max_length; $i++) {
-                echo "<tr>";
-                
-                // Output name from array A if it exists
-                if (isset($names_a[$i])) {
-                    echo "<td>".$names_a[$i]."</td>";
-                } else {
-                    echo "<td></td>";
+                // Fetch data from query A
+                while($row_a = mysqli_fetch_assoc($query_a)) {
+                    $names_a[] = $row_a['name'];
                 }
-                
-                // Output name from array B if it exists
-                if (isset($names_b[$i])) {
-                    echo "<td>".$names_b[$i]."</td>";
-                } else {
-                    echo "<td></td>";
+
+                // Fetch data from query B
+                while($row_b = mysqli_fetch_assoc($query_b)) {
+                    $names_b[] = $row_b['name'];
                 }
-                
-                echo "</tr>";
-            }
-        ?>
-    </table>
+
+                // Get the maximum length of both arrays to loop through them
+                $max_length = max(count($names_a), count($names_b));
+
+                // Loop through both arrays and output results
+                for ($i = 0; $i < $max_length; $i++) {
+                    echo "<tr>";
+                    
+                    // Output name from array A if it exists
+                    if (isset($names_a[$i])) {
+                        echo "<td>".$names_a[$i]."</td>";
+                    } else {
+                        echo "<td></td>";
+                    }
+                    
+                    // Output name from array B if it exists
+                    if (isset($names_b[$i])) {
+                        echo "<td>".$names_b[$i]."</td>";
+                    } else {
+                        echo "<td></td>";
+                    }
+                    
+                    echo "</tr>";
+                }
+            ?>
+        </table>
+    <?php } ?>
     <?php include('page/dashboard/history.php'); ?>
 </div>
