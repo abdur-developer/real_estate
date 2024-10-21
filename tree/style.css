@@ -95,13 +95,15 @@ body {
     height: 20px;
     border-radius: 50%;
     margin-bottom: 7px;
+    background-image: url('account.svg');
+    background-size: cover;
 }
 .tree li a span {
     display: block;
     padding: 3px 6px;
     color: #333;
     text-transform: lowercase;
-    font-size: 8px;
+    font-size: 12px;
 }
 /*Hover-Section*/
 .tree li a:hover, .tree li a:hover i, .tree li a:hover span, .tree li a:hover+ul li a {
